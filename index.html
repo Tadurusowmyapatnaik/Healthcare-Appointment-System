@@ -1,0 +1,726 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Health Buddy+ | Healthcare Appointment System</title>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <header class="navbar">
+      <div class="nav-container">
+        <a
+          href="#"
+          class="brand"
+          onclick="
+            navigate('home');
+            return false;
+          "
+        >
+          <span class="brand-icon">✚</span> Health Buddy<span class="brand-plus"
+            >+</span
+          >
+        </a>
+        <nav class="nav-links" id="navLinks">
+          <a
+            href="#"
+            class="nav-link active"
+            data-page="home"
+            onclick="
+              navigate('home');
+              return false;
+            "
+            >Home</a
+          >
+          <a
+            href="#"
+            class="nav-link"
+            data-page="doctors"
+            onclick="
+              navigate('doctors');
+              return false;
+            "
+            >Doctors</a
+          >
+          <a
+            href="#"
+            class="nav-link"
+            data-page="book"
+            onclick="
+              navigate('book');
+              return false;
+            "
+            >Book Appointment</a
+          >
+          <a
+            href="#"
+            class="nav-link"
+            data-page="appointments"
+            onclick="
+              navigate('appointments');
+              return false;
+            "
+            >My Appointments</a
+          >
+          <a
+            href="#"
+            class="nav-link"
+            data-page="profile"
+            onclick="
+              navigate('profile');
+              return false;
+            "
+            >Profile</a
+          >
+        </nav>
+        <div class="nav-auth" id="navAuth"><!-- filled by JS --></div>
+        <button class="hamburger" onclick="toggleMenu()">☰</button>
+      </div>
+    </header>
+
+    <main>
+      <!-- HOME -->
+      <section id="home" class="page active">
+        <div class="container">
+          <div class="hero">
+            <div class="hero-text">
+              <h1>
+                Your Health, <span class="highlight">One Click</span> Away
+              </h1>
+              <p>
+                Book, reschedule or cancel appointments with verified doctors —
+                online, in seconds. Manage your patient records, get smart
+                reminders and consult virtually.
+              </p>
+              <div class="hero-btns">
+                <button class="btn btn-primary" onclick="navigate('book')">
+                  📅 Book Appointment
+                </button>
+                <button class="btn btn-outline" onclick="navigate('doctors')">
+                  👨‍⚕️ View Doctors
+                </button>
+              </div>
+            </div>
+            <div class="hero-visual">
+              <div class="hero-card">
+                <div class="hero-emoji">🩺</div>
+                <h3>Smart Healthcare Booking</h3>
+                <p>Verified doctors · Live slot availability</p>
+                <div class="hero-badges">
+                  <span>✅ Verified</span><span>🎥 Video Consults</span
+                  ><span>🔔 Reminders</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="reminder-banner" id="homeReminder"></div>
+
+          <div class="stats-row">
+            <div class="stat">
+              <h3 id="statDoctors">10</h3>
+              <p>Expert Doctors</p>
+            </div>
+            <div class="stat">
+              <h3 id="statDepts">8</h3>
+              <p>Departments</p>
+            </div>
+            <div class="stat">
+              <h3 id="statAppointments">0</h3>
+              <p>Appointments Booked</p>
+            </div>
+            <div class="stat">
+              <h3 id="statPatients">0</h3>
+              <p>Registered Patients</p>
+            </div>
+          </div>
+
+          <div class="section-head">
+            <h2>Why Health Buddy+?</h2>
+            <p>Everything you need for a smooth clinic visit</p>
+          </div>
+          <div class="features-grid">
+            <div class="feature-card">
+              <span class="feature-icon">📅</span>
+              <h3>Easy Online Booking</h3>
+              <p>
+                Book appointments in a few clicks with a simple, guided form.
+              </p>
+            </div>
+            <div class="feature-card">
+              <span class="feature-icon">👨‍⚕️</span>
+              <h3>Doctor Availability</h3>
+              <p>
+                See each doctor's available days, timings and live free slots.
+              </p>
+            </div>
+            <div class="feature-card">
+              <span class="feature-icon">🔔</span>
+              <h3>Smart Reminders</h3>
+              <p>
+                Get reminded about your next upcoming appointment on the
+                dashboard.
+              </p>
+            </div>
+            <div class="feature-card">
+              <span class="feature-icon">🎥</span>
+              <h3>Video Consultations</h3>
+              <p>
+                Choose in-person visits or virtual consultations from anywhere.
+              </p>
+            </div>
+            <div class="feature-card">
+              <span class="feature-icon">🗂️</span>
+              <h3>Patient Records</h3>
+              <p>
+                Your details and medical history are saved securely on your
+                device.
+              </p>
+            </div>
+            <div class="feature-card">
+              <span class="feature-icon">🔄</span>
+              <h3>Reschedule & Cancel</h3>
+              <p>Plans changed? Reschedule to a new slot or cancel anytime.</p>
+            </div>
+          </div>
+
+          <div class="cta-band">
+            <h2>Ready to see a doctor?</h2>
+            <button class="btn btn-primary" onclick="navigate('book')">
+              Get Started →
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- LOGIN -->
+      <section id="login" class="page">
+        <div class="container auth-wrap">
+          <div class="auth-card">
+            <h2>Welcome Back 👋</h2>
+            <p class="text-muted">Login to book and manage your appointments</p>
+            <form id="loginForm">
+              <div class="form-group">
+                <label>Email Address *</label
+                ><input
+                  type="email"
+                  id="loEmail"
+                  placeholder="you@example.com"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label>Password *</label
+                ><input
+                  type="password"
+                  id="loPassword"
+                  placeholder="Enter your password"
+                  required
+                />
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">
+                Login
+              </button>
+            </form>
+            <p class="auth-switch">
+              New here?
+              <a
+                href="#"
+                onclick="
+                  navigate('signup');
+                  return false;
+                "
+                >Create an account</a
+              >
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SIGNUP -->
+      <section id="signup" class="page">
+        <div class="container auth-wrap">
+          <div class="auth-card wide">
+            <h2>Create Your Account 📝</h2>
+            <p class="text-muted">Register as a patient to get started</p>
+            <form id="signupForm">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label>Full Name *</label
+                  ><input id="suName" placeholder="e.g. John Doe" required />
+                </div>
+                <div class="form-group">
+                  <label>Email Address *</label
+                  ><input
+                    type="email"
+                    id="suEmail"
+                    placeholder="you@example.com"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Phone (10 digits) *</label
+                  ><input
+                    id="suPhone"
+                    placeholder="9876543210"
+                    maxlength="10"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Age</label
+                  ><input
+                    type="number"
+                    id="suAge"
+                    min="1"
+                    max="120"
+                    placeholder="e.g. 25"
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Gender</label>
+                  <select id="suGender">
+                    <option value="">Select</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Blood Group</label>
+                  <select id="suBlood">
+                    <option value="">Select</option>
+                    <option>A+</option>
+                    <option>A-</option>
+                    <option>B+</option>
+                    <option>B-</option>
+                    <option>AB+</option>
+                    <option>AB-</option>
+                    <option>O+</option>
+                    <option>O-</option>
+                  </select>
+                </div>
+                <div class="form-group full">
+                  <label>Address</label
+                  ><input id="suAddress" placeholder="House no, street, city" />
+                </div>
+                <div class="form-group">
+                  <label
+                    >Password *
+                    <small class="text-muted">(min 6 chars)</small></label
+                  ><input
+                    type="password"
+                    id="suPassword"
+                    placeholder="Create password"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Confirm Password *</label
+                  ><input
+                    type="password"
+                    id="suConfirm"
+                    placeholder="Re-enter password"
+                    required
+                  />
+                </div>
+              </div>
+              <label class="consent"
+                ><input type="checkbox" id="suTerms" required /> I agree to the
+                Terms & Conditions and Privacy Policy.</label
+              >
+              <button type="submit" class="btn btn-primary btn-block">
+                Sign Up
+              </button>
+            </form>
+            <p class="auth-switch">
+              Already have an account?
+              <a
+                href="#"
+                onclick="
+                  navigate('login');
+                  return false;
+                "
+                >Login</a
+              >
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- DOCTORS -->
+      <section id="doctors" class="page">
+        <div class="container section">
+          <div class="section-head">
+            <h2>Our Doctors & Availability</h2>
+            <p>Filter by department or search by name</p>
+          </div>
+          <div class="filter-bar">
+            <input id="docSearch" placeholder="🔍 Search doctor by name..." />
+            <select id="deptFilter"></select>
+          </div>
+          <div class="doctors-grid" id="doctorsGrid"></div>
+        </div>
+      </section>
+
+      <!-- BOOK APPOINTMENT -->
+      <section id="book" class="page">
+        <div class="container section">
+          <div class="section-head">
+            <h2>Book an Appointment</h2>
+            <p>Fill in your details — it takes less than a minute</p>
+          </div>
+
+          <form id="bookingForm" class="form-card">
+            <div class="reschedule-banner" id="rescheduleBanner">
+              <span id="rescheduleText"></span>
+              <button
+                type="button"
+                class="link-btn"
+                onclick="resetReschedule()"
+              >
+                ✕ Exit reschedule
+              </button>
+            </div>
+
+            <fieldset>
+              <legend>👤 Patient Details</legend>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label>Full Name *</label><input id="bkName" required />
+                </div>
+                <div class="form-group">
+                  <label>Age *</label
+                  ><input type="number" id="bkAge" min="0" max="120" required />
+                </div>
+                <div class="form-group">
+                  <label>Gender *</label>
+                  <select id="bkGender" required>
+                    <option value="">Select</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Blood Group</label>
+                  <select id="bkBlood">
+                    <option value="">Select</option>
+                    <option>A+</option>
+                    <option>A-</option>
+                    <option>B+</option>
+                    <option>B-</option>
+                    <option>AB+</option>
+                    <option>AB-</option>
+                    <option>O+</option>
+                    <option>O-</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Phone *</label
+                  ><input id="bkPhone" maxlength="10" required />
+                </div>
+                <div class="form-group">
+                  <label>Email *</label
+                  ><input type="email" id="bkEmail" required />
+                </div>
+                <div class="form-group full">
+                  <label>Address</label
+                  ><input id="bkAddress" placeholder="House no, street, city" />
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>🩺 Appointment Details</legend>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label>Department *</label
+                  ><select id="bkDept" required></select>
+                </div>
+                <div class="form-group">
+                  <label>Doctor *</label
+                  ><select id="bkDoctor" required></select>
+                </div>
+              </div>
+              <div
+                class="doctor-info"
+                id="doctorInfo"
+                style="display: none"
+              ></div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label>Consultation Type *</label>
+                  <select id="bkConsult">
+                    <option>In-person</option>
+                    <option>Video Consultation</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Visit Type *</label>
+                  <select id="bkVisit">
+                    <option>New Consultation</option>
+                    <option>Follow-up</option>
+                    <option>Second Opinion</option>
+                    <option>Routine Checkup</option>
+                    <option>Emergency</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Preferred Date *</label
+                  ><input type="date" id="bkDate" required />
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Available Time Slots *</label>
+                <p class="hint" id="slotHint">
+                  Select a doctor and date to view available slots.
+                </p>
+                <div class="slot-picker" id="slotPicker"></div>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>📋 Medical Information</legend>
+              <div class="form-grid">
+                <div class="form-group full">
+                  <label>Symptoms / Reason for Visit *</label
+                  ><textarea
+                    id="bkSymptoms"
+                    rows="3"
+                    placeholder="e.g. Fever and headache since 2 days"
+                    required
+                  ></textarea>
+                </div>
+                <div class="form-group full">
+                  <label
+                    >Current Medications
+                    <small class="text-muted">(optional)</small></label
+                  ><textarea
+                    id="bkMeds"
+                    rows="2"
+                    placeholder="List any medicines you are currently taking"
+                  ></textarea>
+                </div>
+                <div class="form-group full">
+                  <label
+                    >Known Allergies
+                    <small class="text-muted">(optional)</small></label
+                  ><textarea
+                    id="bkAllergies"
+                    rows="2"
+                    placeholder="e.g. Penicillin, dust"
+                  ></textarea>
+                </div>
+                <div class="form-group">
+                  <label
+                    >Insurance Provider
+                    <small class="text-muted">(optional)</small></label
+                  >
+                  <select id="bkInsurance">
+                    <option>None</option>
+                    <option>Star Health</option>
+                    <option>HDFC Ergo</option>
+                    <option>ICICI Lombard</option>
+                    <option>Niva Bupa</option>
+                    <option>Bajaj Allianz</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+              </div>
+            </fieldset>
+
+            <label class="consent"
+              ><input type="checkbox" id="bkConsent" required /> I confirm the
+              information provided is accurate and I agree to the clinic's
+              appointment terms.</label
+            >
+            <button
+              type="submit"
+              class="btn btn-primary btn-block"
+              id="bookSubmitBtn"
+            >
+              Confirm Booking
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- MY APPOINTMENTS -->
+      <section id="appointments" class="page">
+        <div class="container section">
+          <div class="section-head">
+            <h2>My Appointments</h2>
+            <p>View, reschedule or cancel your appointments</p>
+          </div>
+          <div class="filter-tabs">
+            <button class="tab active" onclick="setApptFilter('all', this)">
+              All
+            </button>
+            <button class="tab" onclick="setApptFilter('upcoming', this)">
+              Upcoming
+            </button>
+            <button class="tab" onclick="setApptFilter('completed', this)">
+              Completed
+            </button>
+            <button class="tab" onclick="setApptFilter('cancelled', this)">
+              Cancelled
+            </button>
+          </div>
+          <div id="appointmentsList"></div>
+        </div>
+      </section>
+
+      <!-- PROFILE -->
+      <section id="profile" class="page">
+        <div class="container section">
+          <div class="section-head">
+            <h2>My Profile</h2>
+            <p>Manage your personal and medical details</p>
+          </div>
+          <div class="profile-grid">
+            <div class="profile-summary card" id="profileSummary"></div>
+            <div class="profile-forms">
+              <form id="profileForm" class="form-card">
+                <h3>✏️ Edit Details</h3>
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label>Full Name *</label><input id="pfName" required />
+                  </div>
+                  <div class="form-group">
+                    <label>Phone *</label
+                    ><input id="pfPhone" maxlength="10" required />
+                  </div>
+                  <div class="form-group">
+                    <label>Age</label
+                    ><input type="number" id="pfAge" min="1" max="120" />
+                  </div>
+                  <div class="form-group">
+                    <label>Gender</label>
+                    <select id="pfGender">
+                      <option value="">Select</option>
+                      <option>Male</option>
+                      <option>Female</option>
+                      <option>Other</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Blood Group</label>
+                    <select id="pfBlood">
+                      <option value="">Select</option>
+                      <option>A+</option>
+                      <option>A-</option>
+                      <option>B+</option>
+                      <option>B-</option>
+                      <option>AB+</option>
+                      <option>AB-</option>
+                      <option>O+</option>
+                      <option>O-</option>
+                    </select>
+                  </div>
+                  <div class="form-group full">
+                    <label>Address</label><input id="pfAddress" />
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                  Save Changes
+                </button>
+              </form>
+              <form id="passwordForm" class="form-card">
+                <h3>🔒 Change Password</h3>
+                <div class="form-grid">
+                  <div class="form-group full">
+                    <label>Current Password *</label
+                    ><input type="password" id="cpCurrent" required />
+                  </div>
+                  <div class="form-group">
+                    <label>New Password *</label
+                    ><input type="password" id="cpNew" required />
+                  </div>
+                  <div class="form-group">
+                    <label>Confirm New Password *</label
+                    ><input type="password" id="cpConfirm" required />
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-outline">
+                  Update Password
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <h3 class="brand" style="color: #fff">✚ Health Buddy+</h3>
+            <p>
+              A healthcare appointment system connecting patients with doctors —
+              book, reschedule or cancel appointments online with smart
+              reminders and virtual consultations.
+            </p>
+          </div>
+          <div>
+            <h4>Quick Links</h4>
+            <a
+              href="#"
+              onclick="
+                navigate('home');
+                return false;
+              "
+              >Home</a
+            >
+            <a
+              href="#"
+              onclick="
+                navigate('doctors');
+                return false;
+              "
+              >Doctors</a
+            >
+            <a
+              href="#"
+              onclick="
+                navigate('book');
+                return false;
+              "
+              >Book Appointment</a
+            >
+            <a
+              href="#"
+              onclick="
+                navigate('appointments');
+                return false;
+              "
+              >My Appointments</a
+            >
+          </div>
+          <div>
+            <h4>Departments</h4>
+            <p>Cardiology · Dermatology · Pediatrics</p>
+            <p>Orthopedics · Neurology · ENT</p>
+            <p>General Medicine · Gynecology</p>
+          </div>
+          <div>
+            <h4>Contact</h4>
+            <p>📍 Health Buddy+ Clinic, London</p>
+            <p>📞 +44 79118 63671</p>
+            <p>✉️ care@healthbuddyplus.com</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          © 2026 Health Buddy+ Healthcare Appointment System
+        </div>
+      </div>
+    </footer>
+
+    <div id="toast" class="toast"></div>
+    <script src="script.js"></script>
+  </body>
+</html>

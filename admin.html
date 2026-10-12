@@ -1,0 +1,561 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Health Buddy+ Admin | Healthcare Appointment System</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>"
+    />
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <header class="navbar">
+      <div class="nav-container">
+        <a
+          href="#"
+          class="brand"
+          onclick="
+            navigate('dashboard');
+            return false;
+          "
+        >
+          <span class="brand-icon">✚</span> Health Buddy<span class="brand-plus"
+            >+</span
+          >
+          <span class="brand-admin">ADMIN</span>
+        </a>
+        <nav class="nav-links" id="navLinks">
+          <a
+            href="#"
+            class="nav-link active"
+            data-page="dashboard"
+            onclick="
+              navigate('dashboard');
+              return false;
+            "
+            >Dashboard</a
+          >
+          <a
+            href="#"
+            class="nav-link"
+            data-page="doctors"
+            onclick="
+              navigate('doctors');
+              return false;
+            "
+            >Doctors</a
+          >
+          <a
+            href="#"
+            class="nav-link"
+            data-page="appointments"
+            onclick="
+              navigate('appointments');
+              return false;
+            "
+            >Appointments</a
+          >
+          <a
+            href="#"
+            class="nav-link"
+            data-page="patients"
+            onclick="
+              navigate('patients');
+              return false;
+            "
+            >Patients</a
+          >
+          <a
+            href="#"
+            class="nav-link"
+            data-page="settings"
+            onclick="
+              navigate('settings');
+              return false;
+            "
+            >Settings</a
+          >
+        </nav>
+        <div class="nav-auth" id="navAuth"></div>
+        <button class="hamburger" onclick="toggleMenu()">☰</button>
+      </div>
+    </header>
+
+    <main>
+      <!-- ADMIN LOGIN -->
+      <section id="login" class="page">
+        <div class="auth-wrap">
+          <div class="auth-card">
+            <div class="admin-badge">🛡️ Administrator Portal</div>
+            <h2>Admin Login</h2>
+            <p class="text-muted">
+              Sign in to manage doctors, appointments & patients
+            </p>
+            <form id="adminLoginForm">
+              <div class="form-group">
+                <label>Email Address *</label
+                ><input
+                  type="email"
+                  id="alEmail"
+                  placeholder="admin@medicare.com"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label>Password *</label
+                ><input
+                  type="password"
+                  id="alPassword"
+                  placeholder="Enter password"
+                  required
+                />
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">
+                Login
+              </button>
+            </form>
+            <p class="demo-hint">
+              Demo credentials → <strong>admin@medicare.com</strong> /
+              <strong>admin123</strong>
+            </p>
+            <p class="auth-switch">
+              <a href="index.html">← Back to Patient Portal</a>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- DASHBOARD -->
+      <section id="dashboard" class="page">
+        <div class="container section">
+          <div class="page-head">
+            <div>
+              <h2>Dashboard</h2>
+              <p id="dashGreeting">Live overview of your clinic</p>
+            </div>
+            <button class="btn btn-primary" onclick="openDoctorModal()">
+              ➕ Add Doctor
+            </button>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <span class="stat-icon">👥</span>
+              <div>
+                <h3 id="stPatients">0</h3>
+                <p>Patients</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <span class="stat-icon">📅</span>
+              <div>
+                <h3 id="stAppointments">0</h3>
+                <p>Total Appointments</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <span class="stat-icon">🗓️</span>
+              <div>
+                <h3 id="stToday">0</h3>
+                <p>Today's Appointments</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <span class="stat-icon">👨‍⚕️</span>
+              <div>
+                <h3 id="stDoctors">0</h3>
+                <p>Doctors</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <span class="stat-icon">💰</span>
+              <div>
+                <h3 id="stRevenue">₹0</h3>
+                <p>Expected Revenue</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="dash-grid">
+            <div class="card panel">
+              <h3>📊 Appointments by Department</h3>
+              <div id="deptChart"></div>
+            </div>
+            <div class="card panel">
+              <h3>🗓️ Today's Schedule</h3>
+              <div id="todayList"></div>
+            </div>
+          </div>
+
+          <div class="card panel">
+            <div class="panel-head">
+              <h3>🕐 Recent Appointments</h3>
+              <button
+                class="btn btn-outline btn-sm"
+                onclick="navigate('appointments')"
+              >
+                View All →
+              </button>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Patient</th>
+                    <th>Doctor</th>
+                    <th>Date</th>
+                    <th>Slot</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="recentBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- DOCTORS -->
+      <section id="doctors" class="page">
+        <div class="container section">
+          <div class="page-head">
+            <div>
+              <h2>Doctor Management</h2>
+              <p>Add, edit or remove doctors and their availability</p>
+            </div>
+            <button class="btn btn-primary" onclick="openDoctorModal()">
+              ➕ Add Doctor
+            </button>
+          </div>
+          <div class="card panel">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Doctor</th>
+                    <th>Department</th>
+                    <th>Exp.</th>
+                    <th>Fee</th>
+                    <th>Rating</th>
+                    <th>Available Days</th>
+                    <th>Timings</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="doctorsBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- APPOINTMENTS -->
+      <section id="appointments" class="page">
+        <div class="container section">
+          <div class="page-head">
+            <div>
+              <h2>Appointments</h2>
+              <p>Monitor and manage every booking</p>
+            </div>
+          </div>
+          <div class="filter-bar">
+            <input
+              id="apSearch"
+              placeholder="🔍 Search patient name / phone..."
+            />
+            <select id="apStatus">
+              <option value="">All Statuses</option>
+              <option value="upcoming">Upcoming</option>
+              <option value="completed">Completed</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+            <select id="apDoctor"></select>
+            <input type="date" id="apDate" />
+            <button class="btn btn-outline btn-sm" onclick="clearApptFilters()">
+              Clear
+            </button>
+          </div>
+          <div class="card panel">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Patient</th>
+                    <th>Doctor</th>
+                    <th>Date</th>
+                    <th>Slot</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="apptsBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PATIENTS -->
+      <section id="patients" class="page">
+        <div class="container section">
+          <div class="page-head">
+            <div>
+              <h2>Patients</h2>
+              <p>All registered patients and their history</p>
+            </div>
+          </div>
+          <div class="card panel">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Patient</th>
+                    <th>Contact</th>
+                    <th>Age / Gender</th>
+                    <th>Blood</th>
+                    <th>Appointments</th>
+                    <th>Joined</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="patientsBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SETTINGS -->
+      <section id="settings" class="page">
+        <div class="container section">
+          <div class="page-head">
+            <div>
+              <h2>Settings</h2>
+              <p>Admin account & system data</p>
+            </div>
+          </div>
+          <div class="settings-grid">
+            <form id="adminPassForm" class="card panel">
+              <h3>🔒 Change Admin Password</h3>
+              <div class="form-group">
+                <label>Current Password *</label
+                ><input type="password" id="apCurrent" required />
+              </div>
+              <div class="form-group">
+                <label
+                  >New Password *
+                  <small class="text-muted">(min 6 chars)</small></label
+                ><input type="password" id="apNew" required />
+              </div>
+              <div class="form-group">
+                <label>Confirm New Password *</label
+                ><input type="password" id="apConfirm" required />
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">
+                Update Password
+              </button>
+            </form>
+            <div class="card panel">
+              <h3>🗂️ System Data</h3>
+              <div id="sysStats" class="sys-stats"></div>
+              <h3 style="margin-top: 18px">⚠️ Danger Zone</h3>
+              <button
+                class="btn btn-danger btn-block"
+                onclick="clearAllAppointments()"
+              >
+                🗑 Clear All Appointments
+              </button>
+              <button
+                class="btn btn-outline btn-block"
+                style="margin-top: 10px"
+                onclick="resetDoctors()"
+              >
+                ↩ Reset Doctors to Default
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        © 2026 Health Buddy+ Admin Panel — Healthcare Appointment System ·
+        <a href="index.html">Patient Portal →</a>
+      </div>
+    </footer>
+
+    <!-- DOCTOR MODAL -->
+    <div class="modal-overlay" id="doctorModal">
+      <div class="modal">
+        <div class="modal-head">
+          <h3 id="docModalTitle">Add Doctor</h3>
+          <button class="modal-close" onclick="closeDoctorModal()">✕</button>
+        </div>
+        <form id="doctorForm">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Doctor Name *</label
+              ><input id="dcName" placeholder="e.g. Dr. Ravi Menon" required />
+            </div>
+            <div class="form-group">
+              <label>Department *</label>
+              <input
+                id="dcDept"
+                list="deptList"
+                placeholder="e.g. Cardiology"
+                required
+              />
+              <datalist id="deptList">
+                <option>Cardiology</option>
+                <option>Dermatology</option>
+                <option>Pediatrics</option>
+                <option>Orthopedics</option>
+                <option>Neurology</option>
+                <option>General Medicine</option>
+                <option>Gynecology</option>
+                <option>ENT</option>
+              </datalist>
+            </div>
+            <div class="form-group">
+              <label>Experience (years) *</label
+              ><input type="number" id="dcExp" min="1" max="60" required />
+            </div>
+            <div class="form-group">
+              <label>Consultation Fee (₹) *</label
+              ><input type="number" id="dcFee" min="0" required />
+            </div>
+            <div class="form-group">
+              <label>Rating (1–5)</label
+              ><input
+                type="number"
+                id="dcRating"
+                min="1"
+                max="5"
+                step="0.1"
+                value="4.5"
+              />
+            </div>
+            <div class="form-group full">
+              <label>About the Doctor</label
+              ><textarea
+                id="dcAbout"
+                rows="2"
+                placeholder="Short specialization summary"
+              ></textarea>
+            </div>
+            <div class="form-group full">
+              <label>Available Days *</label>
+              <div class="day-checks">
+                <label class="day-check"
+                  ><input type="checkbox" class="docDay" value="1" /> Mon</label
+                >
+                <label class="day-check"
+                  ><input type="checkbox" class="docDay" value="2" /> Tue</label
+                >
+                <label class="day-check"
+                  ><input type="checkbox" class="docDay" value="3" /> Wed</label
+                >
+                <label class="day-check"
+                  ><input type="checkbox" class="docDay" value="4" /> Thu</label
+                >
+                <label class="day-check"
+                  ><input type="checkbox" class="docDay" value="5" /> Fri</label
+                >
+                <label class="day-check"
+                  ><input type="checkbox" class="docDay" value="6" /> Sat</label
+                >
+                <label class="day-check"
+                  ><input type="checkbox" class="docDay" value="0" /> Sun</label
+                >
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Start Hour *</label>
+              <select id="dcStart">
+                <option value="6">6 AM</option>
+                <option value="7">7 AM</option>
+                <option value="8">8 AM</option>
+                <option value="9" selected>9 AM</option>
+                <option value="10">10 AM</option>
+                <option value="11">11 AM</option>
+                <option value="12">12 PM</option>
+                <option value="14">2 PM</option>
+                <option value="15">3 PM</option>
+                <option value="16">4 PM</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>End Hour *</label>
+              <select id="dcEnd">
+                <option value="12">12 PM</option>
+                <option value="13">1 PM</option>
+                <option value="14">2 PM</option>
+                <option value="15">3 PM</option>
+                <option value="16">4 PM</option>
+                <option value="17" selected>5 PM</option>
+                <option value="18">6 PM</option>
+                <option value="19">7 PM</option>
+                <option value="20">8 PM</option>
+              </select>
+            </div>
+          </div>
+          <button
+            type="submit"
+            class="btn btn-primary btn-block"
+            id="docSubmitBtn"
+          >
+            Add Doctor
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- APPOINTMENT DETAILS MODAL -->
+    <div class="modal-overlay" id="apptModal">
+      <div class="modal">
+        <div class="modal-head">
+          <h3>📋 Appointment Details</h3>
+          <button
+            class="modal-close"
+            onclick="
+              document.getElementById('apptModal').classList.remove('open')
+            "
+          >
+            ✕
+          </button>
+        </div>
+        <div id="apptModalBody" class="modal-body"></div>
+      </div>
+    </div>
+
+    <!-- PATIENT HISTORY MODAL -->
+    <div class="modal-overlay" id="patientModal">
+      <div class="modal">
+        <div class="modal-head">
+          <h3 id="patientModalTitle">Patient Appointments</h3>
+          <button
+            class="modal-close"
+            onclick="
+              document.getElementById('patientModal').classList.remove('open')
+            "
+          >
+            ✕
+          </button>
+        </div>
+        <div id="patientModalBody" class="modal-body"></div>
+      </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+    <script src="admin.js"></script>
+  </body>
+</html>
